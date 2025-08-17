@@ -15,10 +15,15 @@ public partial class Ship : RigidBody2D
 		}
 		set
 		{
-			_energy = value;
+			if (_energy > DataManager.InitAttributes.Energy) _energy = DataManager.InitAttributes.Energy;
+			else if (_energy < 0f) _energy = 0f;
+			else _energy = value;
+			if (_energy <= 0f && IsEngineOn) IsEngineOn = false;
+			else if (_energy > MaxEnergy * 0.3f && !IsEngineOn) IsEngineOn = true;
 			GlobalRef.Hud.SetEnergyValue(_energy / MaxEnergy);
 		}
 	}
+	public bool IsEngineOn = true;
 	public GpuParticles2D Engine;
 	public override void _Ready()
 	{
@@ -29,7 +34,7 @@ public partial class Ship : RigidBody2D
 	{
 		var direction = Input.GetVector("Left", "Right", "Up", "Down").Normalized().Rotated(Rotation);
 		var rotation = Input.GetAxis("RotateL", "RotateR");
-		if (direction != Vector2.Zero && (LinearVelocity + direction * Force * (float)delta).Length() < Speed && Energy > 0f)
+		if (direction != Vector2.Zero && (LinearVelocity + direction * Force * (float)delta).Length() < Speed && IsEngineOn)
 		{
 			Energy -= 10f * (float)delta;
 			ApplyCentralForce(direction * Force);
@@ -44,13 +49,9 @@ public partial class Ship : RigidBody2D
 			ApplyTorque(rotation * Torque);
 		}
 		Energy += 1f * (float)delta;
-		if (Energy > DataManager.InitAttributes.Energy)
-		{
-			Energy = DataManager.InitAttributes.Energy;
-		}
-		else if (Energy < 0f)
-		{
-			Energy = 0f;
-		}
+	}
+	public void OnBodyShapeEntered(Rid rid, Node node, int shapeIdx, int localIdx)
+	{
+		GD.Print($"{rid} entered {node} shape {shapeIdx} local {localIdx}");
 	}
 }
