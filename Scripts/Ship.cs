@@ -40,6 +40,12 @@ public partial class Ship : RigidBody2D
 			ApplyCentralForce(direction * Force);
 			Engine.Emitting = true;
 		}
+		else if (Input.IsActionPressed("Brake") && LinearVelocity.Length() > 1f)
+		{
+			Energy -= 5f * (float)delta;
+			ApplyCentralForce(-LinearVelocity.Normalized() * Force);
+			Engine.Emitting = true;
+		}
 		else
 		{
 			Engine.Emitting = false;

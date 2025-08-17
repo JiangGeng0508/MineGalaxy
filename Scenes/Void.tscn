@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=4 uid="uid://bhyhlpjf8tqrt"]
+[gd_scene load_steps=18 format=4 uid="uid://bhyhlpjf8tqrt"]
 
 [ext_resource type="Shader" uid="uid://bau16mhgss64k" path="res://Assets/Shaders/StarfieldParallax.gdshader" id="1_uqtrj"]
 [ext_resource type="PackedScene" uid="uid://cn203d0jjhba0" path="res://Scenes/Ship.tscn" id="2_v1ws8"]
@@ -8,12 +8,43 @@
 [ext_resource type="Script" uid="uid://dxqacvj3mx8e7" path="res://Scripts/Mouse.cs" id="6_dubfs"]
 [ext_resource type="PackedScene" uid="uid://ka78q1wafk04" path="res://Scenes/GpsNotifer.tscn" id="7_8ihnk"]
 [ext_resource type="PackedScene" uid="uid://br2ah7kcjf8le" path="res://Scenes/Asteroid.tscn" id="8_126of"]
+[ext_resource type="Shader" uid="uid://dqowkmiae2m6h" path="res://Assets/Shaders/PolerBlackHole.gdshader" id="9_v1ws8"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_yp5am"]
 shader = ExtResource("1_uqtrj")
 shader_parameter/VIEWPORT_SIZE = Vector2(1280, 720)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uqtrj"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_uqtrj"]
+radius = 820.074
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_au8px"]
+
+[sub_resource type="Gradient" id="Gradient_v1ws8"]
+offsets = PackedFloat32Array(0.0601093, 1)
+colors = PackedColorArray(0.916667, 0, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_v1ws8"]
+color_ramp = SubResource("Gradient_v1ws8")
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_arrq0"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_arrq0"]
+shader = ExtResource("9_v1ws8")
+shader_parameter/resolution = Vector2(512, 512)
+shader_parameter/colorResolution = 100.0
+shader_parameter/distortionIntensity = 1.0
+shader_parameter/spiralDistortionIntensity = 1.0
+shader_parameter/holeSize = 0.05
+shader_parameter/holeColor = SubResource("NoiseTexture2D_v1ws8")
+shader_parameter/image = SubResource("NoiseTexture2D_arrq0")
+shader_parameter/rotations = 1.0
+shader_parameter/depth = 0.5
+shader_parameter/spiralIntensity = 1.0
+shader_parameter/shrinkSpeed = 0.2
+shader_parameter/roationSpeed = 0.1
+shader_parameter/haloColor = SubResource("NoiseTexture2D_au8px")
 
 [node name="Void" type="Node2D"]
 
@@ -33,7 +64,9 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Ship" parent="." instance=ExtResource("2_v1ws8")]
+z_index = 10
 position = Vector2(415, 318)
+gravity_scale = 1.0
 
 [node name="FollowCamera" parent="." instance=ExtResource("3_arrq0")]
 position = Vector2(415, 318)
@@ -60,6 +93,7 @@ tile_map_data = PackedByteArray("AAD6////AAAAAAIAAAD6/wAAAAAAAAIAAAD6/wEAAAAAAAI
 [node name="RigidBody2D" type="RigidBody2D" parent="."]
 position = Vector2(154, 324)
 gravity_scale = 0.0
+metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
 rotation = 0.785397
@@ -69,4 +103,18 @@ shape = SubResource("RectangleShape2D_uqtrj")
 [node name="Icon" type="Sprite2D" parent="RigidBody2D"]
 rotation = 0.785397
 scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_au8px")
+
+[node name="BlackHole" type="Area2D" parent="."]
+position = Vector2(-1252, -418)
+gravity_space_override = 1
+gravity_point = true
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BlackHole"]
+shape = SubResource("CircleShape2D_uqtrj")
+
+[node name="Icon" type="Sprite2D" parent="BlackHole"]
+material = SubResource("ShaderMaterial_arrq0")
+scale = Vector2(16, 16)
 texture = ExtResource("4_au8px")
