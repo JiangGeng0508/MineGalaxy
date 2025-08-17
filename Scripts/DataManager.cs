@@ -12,7 +12,7 @@ public static class DataManager
 		Uid.Add("Ship", "uid://cn203d0jjhba0");
 		Uid.Add("Icon", "uid://bcix1isad08ig");
 
-		InitAttributes.Health = 100f;
+		InitAttributes.Energy = 100f;
 		InitAttributes.Force = 100f;
 		InitAttributes.Torque = 1000f;
 		InitAttributes.Speed = 1000f;
@@ -25,7 +25,7 @@ public static class DataManager
 }
 public struct ShipAttributes()
 {
-	public float Health;
+	public float Energy;
 	public float Force;
 	public float Torque;
 	public float Speed;
