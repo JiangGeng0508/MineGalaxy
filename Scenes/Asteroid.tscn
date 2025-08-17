@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://br2ah7kcjf8le"]
+
+[ext_resource type="TileSet" uid="uid://md6fl5sadsrs" path="res://Assets/Block.tres" id="1_e0e3k"]
+[ext_resource type="Script" uid="uid://uoxdmf5tejn2" path="res://Scripts/GpsPoint.cs" id="2_jnrf0"]
+
+[node name="Asteroid" type="TileMapLayer"]
+tile_map_data = PackedByteArray(0, 0, 255, 255, 255, 255, 0, 0, 0, 0, 2, 0, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 255, 255, 0, 0, 0, 0, 2, 0, 0, 0)
+tile_set = ExtResource("1_e0e3k")
+use_kinematic_bodies = true
+
+[node name="GpsPoint" type="Marker2D" parent="."]
+script = ExtResource("2_jnrf0")
+metadata/_custom_type_script = "uid://uoxdmf5tejn2"

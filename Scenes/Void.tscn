@@ -1,0 +1,53 @@
+[gd_scene load_steps=10 format=3 uid="uid://bhyhlpjf8tqrt"]
+
+[ext_resource type="Shader" uid="uid://bau16mhgss64k" path="res://Assets/Shaders/StarfieldParallax.gdshader" id="1_uqtrj"]
+[ext_resource type="PackedScene" uid="uid://cn203d0jjhba0" path="res://Scenes/Ship.tscn" id="2_v1ws8"]
+[ext_resource type="PackedScene" uid="uid://blx2lafrp80o8" path="res://Scenes/FollowCamera.tscn" id="3_arrq0"]
+[ext_resource type="Texture2D" uid="uid://bcix1isad08ig" path="res://icon.svg" id="4_au8px"]
+[ext_resource type="Script" uid="uid://uoxdmf5tejn2" path="res://Scripts/GpsPoint.cs" id="5_x0keg"]
+[ext_resource type="Script" uid="uid://dxqacvj3mx8e7" path="res://Scripts/Mouse.cs" id="6_dubfs"]
+[ext_resource type="PackedScene" uid="uid://ka78q1wafk04" path="res://Scenes/GpsNotifer.tscn" id="7_8ihnk"]
+[ext_resource type="PackedScene" uid="uid://br2ah7kcjf8le" path="res://Scenes/Asteroid.tscn" id="8_126of"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yp5am"]
+shader = ExtResource("1_uqtrj")
+shader_parameter/VIEWPORT_SIZE = Vector2(1280, 720)
+
+[node name="Void" type="Node2D"]
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0, 0)
+
+[node name="GalaxyBackground" type="ColorRect" parent="ParallaxBackground/ParallaxLayer"]
+material = SubResource("ShaderMaterial_yp5am")
+custom_minimum_size = Vector2(1280, 720)
+offset_right = 1280.0
+offset_bottom = 720.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Ship" parent="." instance=ExtResource("2_v1ws8")]
+position = Vector2(415, 318)
+
+[node name="FollowCamera" parent="." instance=ExtResource("3_arrq0")]
+position = Vector2(415, 318)
+ignore_rotation = false
+
+[node name="Icon" type="Sprite2D" parent="."]
+position = Vector2(775, 359)
+texture = ExtResource("4_au8px")
+
+[node name="GpsPoint" type="Marker2D" parent="Icon"]
+script = ExtResource("5_x0keg")
+metadata/_custom_type_script = "uid://uoxdmf5tejn2"
+
+[node name="Mouse" type="Node2D" parent="."]
+visible = false
+script = ExtResource("6_dubfs")
+
+[node name="GpsNotifer" parent="Mouse" instance=ExtResource("7_8ihnk")]
+
+[node name="Asteroid" parent="." instance=ExtResource("8_126of")]
+position = Vector2(667, 101)

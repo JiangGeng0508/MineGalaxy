@@ -1,0 +1,39 @@
+[gd_scene load_steps=7 format=3 uid="uid://cn203d0jjhba0"]
+
+[ext_resource type="Script" uid="uid://cej3oh3magc54" path="res://Scripts/Ship.cs" id="1_h40nn"]
+[ext_resource type="Texture2D" uid="uid://bcix1isad08ig" path="res://icon.svg" id="1_xljvd"]
+[ext_resource type="Script" uid="uid://uoxdmf5tejn2" path="res://Scripts/GpsPoint.cs" id="3_oam5h"]
+[ext_resource type="PackedScene" uid="uid://ka78q1wafk04" path="res://Scenes/GpsNotifer.tscn" id="4_ix3uc"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_k24tq"]
+radius = 21.0
+height = 104.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_by1o1"]
+
+[node name="Ship" type="RigidBody2D"]
+gravity_scale = 0.0
+script = ExtResource("1_h40nn")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_k24tq")
+
+[node name="Icon" type="Sprite2D" parent="."]
+scale = Vector2(0.310237, 0.632942)
+texture = ExtResource("1_xljvd")
+
+[node name="GpsPoint" type="Marker2D" parent="."]
+script = ExtResource("3_oam5h")
+metadata/_custom_type_script = "uid://uoxdmf5tejn2"
+
+[node name="GpsNotifer" parent="." instance=ExtResource("4_ix3uc")]
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+grow_horizontal = 1
+grow_vertical = 1
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+amount = 20
+texture = ExtResource("1_xljvd")
+process_material = SubResource("ShaderMaterial_by1o1")
