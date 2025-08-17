@@ -109,6 +109,7 @@ texture = ExtResource("4_au8px")
 position = Vector2(-1252, -418)
 gravity_space_override = 1
 gravity_point = true
+gravity = 490.0
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BlackHole"]
@@ -118,3 +119,7 @@ shape = SubResource("CircleShape2D_uqtrj")
 material = SubResource("ShaderMaterial_arrq0")
 scale = Vector2(16, 16)
 texture = ExtResource("4_au8px")
+
+[node name="GpsPoint" type="Marker2D" parent="BlackHole"]
+script = ExtResource("5_x0keg")
+metadata/_custom_type_script = "uid://uoxdmf5tejn2"
